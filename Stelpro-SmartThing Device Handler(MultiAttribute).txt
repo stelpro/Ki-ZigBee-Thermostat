@@ -1,21 +1,21 @@
-/****************************************************************************/
-/*                                                                          */
-/*               Stelpro Confidential and Proprietary                       */
-/*                                                                          */
-/* This work contains valuable confidential and proprietary information.    */
-/* Disclosure, use or reproduction outside of Stelpro is prohibited         */
-/* except as authorized in writing. This unpublished work is protected by   */
-/* the laws of Canada and other countries.                                  */
-/*                                                                          */
-/*                  Copyright 2016, Stelpro Inc.                            */
-/*                         All rights reserved.                             */
-/*                                                                          */
-/* This code is being furnished in confidence by Stelpro Inc.               */
-/*                                                                          */
-/* Stelpro ZigBee Thermostat												*/
-/*																			*/
-/* Line Volt ZigBee Thermostat with Weather									*/
-/****************************************************************************/
+/**
+ *  Copyright 2016 Stelpro
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License. You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+ *  for the specific language governing permissions and limitations under the License.
+ *
+ *  Stelpro Ki ZigBee Thermostat
+ *
+ *  Author: Stelpro
+ *
+ *  Date: 2016-12-21
+ */
  
 preferences {
 	section {
