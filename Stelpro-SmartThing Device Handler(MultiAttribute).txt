@@ -1,5 +1,5 @@
 /**
- *  Copyright 2016 Stelpro
+ *  Copyright 2017 Stelpro
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -14,7 +14,7 @@
  *
  *  Author: Stelpro
  *
- *  Date: 2016-12-21
+ *  Date: 2017-05-08
  */
  
 preferences {
@@ -52,13 +52,14 @@ metadata {
 	tiles {
 		multiAttributeTile(name:"thermostatMulti", type:"thermostat", width:6, height:4) {
 			tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
-				attributeState("default", label:'${currentValue}')
+				attributeState("temp", label:'${currentValue}')
                 attributeState("high", label:'HIGH')
             	attributeState("low", label:'LOW')
             	attributeState("--", label:'--')
 			}
-			tileAttribute("device.temperature", key: "VALUE_CONTROL") {
-				attributeState("default", action: "setTemperature")
+			tileAttribute("device.heatingSetpoint", key: "VALUE_CONTROL") {
+				attributeState("VALUE_UP", action: "increaseHeatSetpoint")
+                attributeState("VALUE_DOWN", action: "decreaseHeatSetpoint")
 			}
 			tileAttribute("device.thermostatOperatingState", key: "OPERATING_STATE") {
 				attributeState("idle", backgroundColor:"#44b621")
@@ -71,12 +72,9 @@ metadata {
 			}
             tileAttribute("device.heatingSetpoint", key: "HEATING_SETPOINT")
             {
-            	attributeState("default", label:'${currentValue}')
+            	attributeState("heatingSetpoint", label:'${currentValue}')
             }
-			tileAttribute("device.heatingSetpoint", key: "VALUE_CONTROL") {
-				attributeState("VALUE_UP", action: "increaseHeatSetpoint")
-                attributeState("VALUE_DOWN", action: "decreaseHeatSetpoint")
-			}
+			
 		}
         standardTile("mode", "device.thermostatMode", width: 2, height: 2) {
         	state "off", label:'Off', action:"switchMode", nextState:"comfort", icon:"st.thermostat.off"
