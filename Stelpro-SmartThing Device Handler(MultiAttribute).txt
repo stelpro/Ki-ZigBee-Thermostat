@@ -57,7 +57,7 @@ metadata {
             	attributeState("low", label:'LOW')
             	attributeState("--", label:'--')
 			}
-			tileAttribute("device.heatingSetpoint", key: "VALUE_CONTROL") {
+            tileAttribute("device.heatingSetpoint", key: "VALUE_CONTROL") {
 				attributeState("VALUE_UP", action: "increaseHeatSetpoint")
                 attributeState("VALUE_DOWN", action: "decreaseHeatSetpoint")
 			}
@@ -74,7 +74,6 @@ metadata {
             {
             	attributeState("heatingSetpoint", label:'${currentValue}')
             }
-			
 		}
         standardTile("mode", "device.thermostatMode", width: 2, height: 2) {
         	state "off", label:'Off', action:"switchMode", nextState:"comfort", icon:"st.thermostat.off"
@@ -661,3 +660,4 @@ def my_writeAttribute(cluster, attributeId, dataType, value, Map additional=null
         zigbee.writeAttribute(cluster, attributeId, dataType, value)
     }
 }
+
