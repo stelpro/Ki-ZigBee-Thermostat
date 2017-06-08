@@ -14,7 +14,7 @@
  *
  *  Author: Stelpro
  *
- *  Date: 2017-05-08
+ *  Date: 2017-06-08
  */
  
 preferences {
@@ -49,7 +49,7 @@ metadata {
 	// simulator metadata
 	simulator { }
 
-	tiles {
+	tiles(scale: 2) {
 		multiAttributeTile(name:"thermostatMulti", type:"thermostat", width:6, height:4) {
 			tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
 				attributeState("temp", label:'${currentValue}')
@@ -79,18 +79,6 @@ metadata {
         	state "off", label:'Off', action:"switchMode", nextState:"comfort", icon:"st.thermostat.off"
 			state "comfort", label:'Comfort', action:"switchMode", nextState:"eco", icon:"http://cdn.device-icons.smartthings.com/Home/home29-icn@2x.png"
 			state "eco", label:'Eco', action:"switchMode", nextState:"off", icon:"http://cdn.device-icons.smartthings.com/Outdoor/outdoor3-icn@2x.png"
-        }
-        valueTile("heatingSetpoint", "device.heatingSetpoint", width: 2, height: 2) {
-            state "temperature", label:'Setpoint\n${currentValue}°', backgroundColors:[
-                    [value: 31, color: "#153591"],
-                    [value: 44, color: "#1e9cbb"],
-                    [value: 59, color: "#90d2a7"],
-                    [value: 74, color: "#44b621"],
-                    [value: 84, color: "#f1d801"],
-                    [value: 95, color: "#d04e00"],
-                    [value: 96, color: "#bc2323"]
-            ]
-            state "--", label:'--', backgroundColor:"#bdbdbd"
         }
         standardTile("refresh", "device.refresh", decoration: "flat", width: 2, height: 2) {
             state "default", action:"poll", icon:"st.secondary.refresh"
