@@ -14,7 +14,7 @@
  *
  *  Author: Stelpro
  *
- *  Date: 2017-06-08
+ *  Date: 2017-07-13
  */
  
 preferences {
@@ -49,7 +49,7 @@ metadata {
 	// simulator metadata
 	simulator { }
 
-	tiles(scale: 2) {
+	tiles(scale : 2) {
 		multiAttributeTile(name:"thermostatMulti", type:"thermostat", width:6, height:4) {
 			tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
 				attributeState("temp", label:'${currentValue}')
@@ -161,7 +161,7 @@ def parse(String description) {
         	log.debug "HEAT DEMAND"
             map.name = "thermostatOperatingState"
             map.value = getModeMap()[descMap.value]
-            if (map.value == "off")
+            if (descMap.value < "10")
             {
             	map.value = "idle"
             }
@@ -219,7 +219,7 @@ def poll() {
         // Set the tiles
         def locationScale = getTemperatureScale()
         def tempToSend
-        log.debug( "Outdoor Temperature: ${weather.current_observation.temp_c}ºC" )
+        log.debug( "Outdoor Temperature: ${weather.current_observation.temp_c}ยบC" )
         sendEvent( name: 'outsideTemp', value: weather.current_observation.temp_c )
         tempToSend = weather.current_observation.temp_c
 
@@ -273,11 +273,11 @@ def setHeatingSetpoint(degrees) {
 	    tempfloat = (Math.round(degrees.toFloat() * 2)) / 2
 
 		log.debug "setHeatingSetpoint({$tempfloat} ${temperatureScale})"
-		sendEvent("name": "heatingSetpoint", "value": tempfloat)
         def celsius = (getTemperatureScale() == "C") ? tempfloat : (fahrenheitToCelsius(tempfloat) as Float).round(2)
         delayBetween([
-        	"st wattr 0x${device.deviceNetworkId} 0x19 0x201 0x12 0x29 {" + hex(celsius * 100) + "}",
+        	zigbee.writeAttribute(0x201, 0x12, 0x29, hex(celsius * 100)),
         	zigbee.readAttribute(0x201, 0x12),	//Read Heat Setpoint
+            zigbee.readAttribute(0x201, 0x08),	//Read PI Heat demand
     	], 100)
 	}
 }
