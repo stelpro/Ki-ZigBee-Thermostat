@@ -14,7 +14,7 @@
  *
  *  Author: Stelpro
  *
- *  Date: 2018-03-01
+ *  Date: 2018-04-04
  */
  
 preferences {
@@ -52,7 +52,7 @@ metadata {
 	simulator { }
 
 	tiles(scale : 2) {
-		multiAttributeTile(name:"thermostatMulti", type:"thermostat", width:6, height:4) {
+		multiAttributeTile(name:"thermostatMulti", type:"thermostat", width:6, height:4, canChangeIcon: true) {
 			tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
 				attributeState("temp", label:'${currentValue}')
                 attributeState("high", label:'HIGH')
