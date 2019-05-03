@@ -387,11 +387,14 @@ def modes() {
 }
 
 def switchMode() {
+	log.debug "Switch Mode - Enter"
     def currentMode = device.currentState("thermostatMode")?.value
+    log.debug "Current mode: {$currentMode}"
     def lastTriedMode = state.lastTriedMode ?: currentMode ?: "heat"
     def modeOrder = modes()
     def next = { modeOrder[modeOrder.indexOf(it) + 1] ?: modeOrder[0] }
 	def nextMode = next(currentMode)
+    log.debug "Next mode: {$nextMode}"
     def modeNumber;
     Integer setpointModeNumber;
     def modeToSendInString;
@@ -401,25 +404,29 @@ def switchMode() {
         setpointModeNumber = 04
     }
     else if (nextMode == "eco") {
-    	modeNumber = 04
+    	modeNumber = 05
         setpointModeNumber = 05
     }
     else {
     	modeNumber = 00
         setpointModeNumber = 00
     }
+    
     if (supportedModes?.contains(currentMode)) {
         while (!supportedModes.contains(nextMode) && nextMode != "heat") {
             nextMode = next(nextMode)
         }
     }
+    
     state.lastTriedMode = nextMode
 	modeToSendInString = zigbee.convertToHexString(setpointModeNumber, 2)
+    log.debug "modeNumber: {$modeNumber}, modeToSendInString: {$modeToSendInString}"
     delayBetween([
     		"st wattr 0x${device.deviceNetworkId} 0x19 0x201 0x001C 0x30 {$modeNumber}",
             my_writeAttribute(0x201, 0x401C, 0x30, modeToSendInString, ["mfgCode": "0x1185"]),
             poll()
     ], 1000)
+    setThermostatMode()
 }
 
 def setThermostatMode() {
@@ -462,18 +469,20 @@ def setThermostatMode(String value) {
         setpointModeNumber = 04
     }
     else if (value == "eco") {
-    	modeNumber = 04
+    	modeNumber = 05
         setpointModeNumber = 05
     }
     else {
     	modeNumber = 00
         setpointModeNumber = 00
     }
+    
     if (supportedModes?.contains(currentMode)) {
         while (!supportedModes.contains(value) && value != "heat") {
             value = next(value)
         }
     }
+    
     state.lastTriedMode = value
 	modeToSendInString = zigbee.convertToHexString(setpointModeNumber, 2)
     delayBetween([
